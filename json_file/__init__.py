@@ -34,7 +34,6 @@ class JSONFile(PavedPath):
         ----
             _args: The path fragments to join together.
         """
-        super().__init__()
         self.cache = JSONCache()
 
     def write(self, content: Any, *, write_through: bool = True) -> None:  # noqa: ANN401 - stdlib json is typed as Any
