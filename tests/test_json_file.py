@@ -1,5 +1,8 @@
 """Test the JSONFile class."""
-import json
+
+from typing import Generator
+
+import pytest
 
 from json_file import JSONFile
 
@@ -7,27 +10,34 @@ from json_file import JSONFile
 class TestJSONFile:
     """Test the JSONFile class."""
 
-    def test_parsed(self) -> None:
-        """Test the parsed method."""
-        file = JSONFile("tests/test_parsed.json")
-        file.write(json.dumps({"key": "value"}))
-        assert file.parsed()["key"] == "value"
-        file.delete()
+    @pytest.fixture()
+    def temporary_file(self) -> Generator[JSONFile, None, None]:
+        """Get a file path for testing and delete the test_data folder if it exists after the test."""
+        temporary_file = JSONFile("test_data/file.json")
+        yield temporary_file
+        if temporary_file.parent == JSONFile("test_data"):
+            temporary_file.parent.delete()
 
-    def test_parsed_cached_changed_file(self) -> None:
-        """Test the parsed_cached method when the file has changed."""
-        file = JSONFile("tests/test_parsed_cached_changed_file.json")
-        file.write(json.dumps({"key": "value"}))
-        file.parsed_cached()
-        file.write(json.dumps({"key2": "value2"}))
-        assert file.parsed_cached()["key"] == "value"
-        file.delete()
+    def test_write(self, temporary_file: JSONFile) -> None:
+        """Test the write method."""
+        # Test empty cache without write_through
+        temporary_file.write({"abc": 123}, write_through=False)
+        assert temporary_file.cache.parsed is None
 
-    def test_parsed_cached_updating_cache(self) -> None:
-        """Test the parsed_cached method when the cache is updated."""
-        file = JSONFile("tests/test_parsed_cached_updating_cache.json")
-        file.write(json.dumps({"key": "value"}))
-        file.parsed_cached()
-        file.write(json.dumps({"key2": "value2"}))
-        assert file.parsed_cached(reload=True)["key2"] == "value2"
-        file.delete()
+        # Test empty cache with write_through
+        temporary_file.write({"abc": 123})
+        assert temporary_file.cache.parsed == {"abc": 123}
+
+        # Test non-empty cache without write_through
+        temporary_file.write({"def": 456}, write_through=False)
+        assert temporary_file.cache.parsed is None
+
+        # Test non-empty cache with write_through
+        temporary_file.write({"def": 456})
+        assert temporary_file.cache.parsed == {"def": 456}
+
+    def test_parse(self, temporary_file: JSONFile) -> None:
+        """Test the parse method."""
+        temporary_file.write({"abc": 123})
+        assert temporary_file.parsed() == {"abc": 123}
+        assert temporary_file.cache.parsed == {"abc": 123}
