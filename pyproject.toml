@@ -3,12 +3,12 @@ name = "json-file"
 version = "0.1.0"
 description = "Library for working with JSON files."
 authors = ["ryn-cx <84663588+ryn-cx@users.noreply.github.com>"]
-license = "GNU GPLv3"
+license = "GNU AGPLv3"
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-paved-path = {git = "https://github.com/ryn-cx/paved-path.git"}
+paved-path = { git = "https://github.com/ryn-cx/paved-path.git" }
 
 
 [tool.poetry.group.dev.dependencies]
