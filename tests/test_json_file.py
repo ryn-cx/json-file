@@ -21,20 +21,23 @@ class TestJSONFile:
     def test_write(self, temporary_file: JSONFile) -> None:
         """Test the write method."""
         # Test empty cache without write_through
-        temporary_file.write({"abc": 123}, write_through=False)
+        output = {"abc": 123}
+        temporary_file.write(output, write_through=False)
         assert temporary_file.cache.parsed is None
 
         # Test empty cache with write_through
-        temporary_file.write({"abc": 123})
-        assert temporary_file.cache.parsed == {"abc": 123}
+        temporary_file.write(output)
+        assert temporary_file.cache.parsed == output
 
-        # Test non-empty cache without write_through
-        temporary_file.write({"def": 456}, write_through=False)
-        assert temporary_file.cache.parsed is None
+        output = {"def": 456}
 
         # Test non-empty cache with write_through
-        temporary_file.write({"def": 456})
-        assert temporary_file.cache.parsed == {"def": 456}
+        temporary_file.write(output)
+        assert temporary_file.cache.parsed == output
+
+        # Test non-empty cache without write_through
+        temporary_file.write(output, write_through=False)
+        assert temporary_file.cache.parsed is None
 
     def test_parse(self, temporary_file: JSONFile) -> None:
         """Test the parse method."""
