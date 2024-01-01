@@ -5,6 +5,7 @@ import json
 from typing import TYPE_CHECKING
 
 from paved_path import CobblestoneCache, PavedPath
+from typing_extensions import override
 
 if TYPE_CHECKING:
     from typing import Any, Self
@@ -28,21 +29,13 @@ class JSONCache(CobblestoneCache):
 class JSONFile(PavedPath):
     """Library for working with JSON files."""
 
+    @override
     def __new__(cls, *args: PathableType) -> Self:
-        """Convert all arguments to Path objects and passes them to the Path constructor."""
         cls.cache = JSONCache()
         return super().__new__(cls, *args)
 
-    def write(self, content: Any, *, write_through: bool = True) -> None:  # noqa: ANN401 - stdlib json is typed as Any
-        """Open the file, write to it, close the file, and clear the cache.
-
-        Args:
-        ----
-            content: The object to be written to the file.
-            write_through: If True the cache will be updated to match what is written to the file. If False the cache
-            will be cleared. Either way the cache is not allowed to be out of sync with the file, either it matches the
-            file or it is None.
-        """
+    @override
+    def write(self, content: Any, *, write_through: bool = True) -> None:
         # Strings and bytes are not serialized because no changescan be made on them.
         if isinstance(content, (str, bytes)):
             super().write(content, write_through=write_through)
