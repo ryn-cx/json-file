@@ -8,9 +8,7 @@ from paved_path import CobblestoneCache, PavedPath
 from typing_extensions import override
 
 if TYPE_CHECKING:
-    from typing import Any, Self
-
-    from paved_path import PathableType
+    from typing import Any
 
 
 # This is set up as a seperate class to make it easier to clear the cache.
@@ -29,10 +27,7 @@ class JSONCache(CobblestoneCache):
 class JSONFile(PavedPath):
     """Library for working with JSON files."""
 
-    @override
-    def __new__(cls, *args: PathableType) -> Self:
-        cls.cache = JSONCache()
-        return super().__new__(cls, *args)
+    cache = JSONCache()
 
     @override
     def write(self, content: Any, *, write_through: bool = True) -> None:
@@ -75,3 +70,6 @@ class JSONFile(PavedPath):
             self.cache.parsed = json.loads(self.read_bytes_cached(reload=reload))
 
         return self.cache.parsed
+
+
+JSONFile("ASDASD")
