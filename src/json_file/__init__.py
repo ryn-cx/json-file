@@ -1,4 +1,4 @@
-"""Class for working with JSON files."""
+"""Library for working with JSON files."""
 
 from __future__ import annotations
 
