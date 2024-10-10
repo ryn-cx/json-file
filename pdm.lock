@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:bda7de62633aece3f1faca738878d3ae5a81001b1a97c26bb1c48f22e0cefde8"
+content_hash = "sha256:b51a496c73cb9b94f781ea314c74525bde4d635a30e6ea5c6ea02d843b25e55c"
 
 [[metadata.targets]]
 requires_python = "==3.12.*"
@@ -190,6 +190,15 @@ files = [
     {file = "packaging-24.1-py3-none-any.whl", hash = "sha256:5b8f2217dbdbd2f7f384c41c628544e6d52f2d0f53c6d0c3ea61aa5d1d7ff124"},
     {file = "packaging-24.1.tar.gz", hash = "sha256:026ed72c8ed3fcce5bf8950572258698927fd1dbda10a5e981cdf0ac37f4f002"},
 ]
+
+[[package]]
+name = "paved-path"
+version = "0.1.0"
+requires_python = "==3.12.*"
+git = "https://github.com/ryn-cx/paved-path"
+revision = "67b47f11ee2387f0eb3ea6864781583a65479e05"
+summary = "Library that extends pathlib's Path."
+groups = ["default"]
 
 [[package]]
 name = "platformdirs"

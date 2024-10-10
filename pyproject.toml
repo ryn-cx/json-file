@@ -5,7 +5,9 @@ description = "Library for working with JSON files."
 authors = [
     {name = "ryn-cx", email = "84663588+ryn-cx@users.noreply.github.com"},
 ]
-dependencies = []
+dependencies = [
+    "paved-path @ git+https://github.com/ryn-cx/paved-path",
+]
 requires-python = "==3.12.*"
 readme = "README.md"
 license = {text = "AGPL-3.0-or-later"}

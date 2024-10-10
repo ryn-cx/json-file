@@ -54,6 +54,8 @@ class JSONFile(PavedPath):
         if write_through:
             self.cached_json = data
 
+        # Dump and load JSON to make sure Serialization does not cause the
+        # loaded file to be different than the file that is being written.
         dumped_json = json.dumps(data)
         read_json = json.loads(dumped_json)
         if read_json != data:
